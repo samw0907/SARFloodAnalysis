@@ -6,10 +6,10 @@ study_area:
   - 13.0
   - 45.0
   processing_bbox:
-  - 11.5
-  - 44.0
-  - 12.8
-  - 44.7
+  - 11.53
+  - 44.09
+  - 12.45
+  - 44.61
 scenes:
   pre:
   - '2023-05-10'
@@ -26,7 +26,7 @@ processing:
   - VH
   dem: SRTM 1Sec HGT
 change_detection:
-  threshold_db: 9.348
+  threshold_db: 7.807
   mode: combined_magnitude
   calibration_reference: peak
 permanent_water:

@@ -8,11 +8,11 @@ A Sentinel-1 SAR flood mapping pipeline applied to three contrasting flood event
 
 | Case Study | Event | Date | Best IoU | Status |
 |---|---|---|---|---|
-| [Emilia-Romagna](emilia_romagna/) | Italy — Faenza/Forlì floods | May 2023 | **0.128** (recession) | Complete |
+| [Emilia-Romagna](emilia_romagna/) | Italy — Faenza/Forlì floods | May 2023 | **0.123** (recession) | Complete |
 | [Wroclaw](wroclaw/) | Poland — Storm Boris | Sep 2024 | **0.029** (maximum extent) | Complete |
 | [Jacobabad](jacobabad/) | Pakistan — monsoon mega-flood | Jul–Aug 2022 | **0.370** (peak) | Complete |
 
-The three events span the full performance range for SAR change-detection flood mapping — from the physically inverted Wroclaw case (signal mechanism wrong, IoU 0.029) through Italy's soil moisture confound (IoU 0.054 peak / 0.128 recession) to Jacobabad's best-case arid open-water scenario (IoU 0.370).
+The three events span the full performance range for SAR change-detection flood mapping — from the physically inverted Wroclaw case (signal mechanism wrong, IoU 0.029) through Italy's soil moisture confound (IoU 0.061 peak / 0.123 recession) to Jacobabad's best-case arid open-water scenario (IoU 0.370).
 
 ---
 
@@ -66,7 +66,7 @@ Masking applied before classification:
 
 | Case Study | Mode | Threshold | Best IoU | Precision | Recall | F1 | Detected | Reference |
 |---|---|---|---|---|---|---|---|---|
-| Emilia-Romagna | combined_magnitude | 9.348 dB | 0.128 (recession) | 0.222 | 0.231 | 0.226 | 11,689 ha | 11,212 ha |
+| Emilia-Romagna | combined_magnitude | 7.807 dB | 0.123 (recession) | 0.184 | 0.272 | 0.220 | 16,590 ha | 11,212 ha |
 | Wroclaw | combined_magnitude | 2.931 dB | 0.029 (maximum) | 0.029 | 0.810 | 0.056 | 534,863 ha | 20,161 ha |
 | Jacobabad | directional_decrease | 7.807 dB | 0.370 (peak) | 0.414 | 0.777 | 0.540 | 94,350 ha | 50,185 ha |
 
@@ -77,10 +77,10 @@ Performance is fundamentally determined by how physically distinct the flood SAR
 | Case | Pre-event soil | Mean ΔVV inside flood | Mean ΔVV outside | Separation | IoU |
 |---|---|---|---|---|---|
 | Jacobabad | Arid (dry pre-monsoon) | −9.45 dB | −4.18 dB | **−5.27 dB** | 0.370 |
-| Emilia-Romagna | Wet (preceding rain) | −1.36 dB | −0.68 dB | **0.68 dB** | 0.054 |
+| Emilia-Romagna | Wet (preceding rain) | −1.36 dB | −0.68 dB | **0.68 dB** | 0.061 |
 | Wroclaw | Very wet (Aug 2024) | **+1.17 dB** (double-bounce) | +1.57 dB (agriculture) | **−0.40 dB** | 0.029 |
 
-Jacobabad confirms the hypothesis: arid pre-event conditions with correct-direction specular signal produce 7–13× higher IoU than the European cases (0.370 vs 0.054 for Italy peak, vs 0.029 for Wroclaw). The −5.27 dB separation is an order of magnitude stronger than either European case. Wroclaw is a degenerate case — the flood inundated standing September crops, producing flooded-vegetation double-bounce (VV increases), while agricultural harvest adds an even larger change signal across the background.
+Jacobabad confirms the hypothesis: arid pre-event conditions with correct-direction specular signal produce 6–13× higher IoU than the European cases (0.370 vs 0.061 for Italy peak, vs 0.029 for Wroclaw). The −5.27 dB separation is an order of magnitude stronger than either European case. Wroclaw is a degenerate case — the flood inundated standing September crops, producing flooded-vegetation double-bounce (VV increases), while agricultural harvest adds an even larger change signal across the background.
 
 ---
 

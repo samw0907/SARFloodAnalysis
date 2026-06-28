@@ -31,7 +31,7 @@ Combined magnitude = √(ΔVV² + ΔVH²)
 
 **Masking**: JRC Global Surface Water ≥ 75% occurrence (permanent water excluded); SRTM slope > 5° (22% of scene excluded as steep terrain).
 
-**Threshold calibration**: grid search 0.1–15 dB (30 steps), maximising IoU against the EMSR664 peak reference. Optimal: **9.348 dB**.
+**Threshold calibration**: grid search 0.1–15 dB (30 steps), maximising IoU against the EMSR664 peak reference. Optimal: **7.807 dB**.
 
 ---
 
@@ -41,7 +41,7 @@ Combined magnitude = √(ΔVV² + ΔVH²)
 <img src="outputs/figures/fig01_backscatter_comparison.png" width="800">
 </p>
 
-*Figure 1: VV gamma-naught before and after the flood. EMSR664 peak reference in red.*
+*Figure 1: VV gamma-naught before and after the flood.*
 
 The pre/post visual difference is subtle — an early indicator that detection will be difficult. Three weeks of continuous rainfall had already saturated agricultural soils before the 22 May scene, compressing the apparent contrast between flooded and non-flooded areas.
 
@@ -53,7 +53,7 @@ The pre/post visual difference is subtle — an early indicator that detection w
 <img src="outputs/figures/fig02_change_map.png" width="700">
 </p>
 
-*Figure 2: VV log-ratio (ΔVV, dB). Blue = decrease, red = increase. EMSR664 reference in green.*
+*Figure 2: VV log-ratio (ΔVV, dB). Blue = decrease, red = increase.*
 
 The entire scene shows moderate backscatter decrease — not just the flood areas. Saturated agricultural soils produce a 0.5–3 dB VV decrease that is nearly indistinguishable from shallow flood water. Inside the EMSR664 reference the decrease is slightly stronger, but the mean separation is only **0.68 dB** — too small for clean thresholding.
 
@@ -81,8 +81,8 @@ False positives (red) spread across agricultural fields are wet soil misclassifi
 
 | Reference | IoU | Precision | Recall | F1 | Detected | Reference area |
 |---|---|---|---|---|---|---|
-| Peak flood (DEL_PRODUCT) | 0.054 | 0.089 | 0.119 | 0.102 | 11,689 ha | 8,798 ha |
-| **Recession (DEL_MONIT01)** | **0.128** | **0.222** | **0.231** | **0.226** | 11,689 ha | 11,212 ha |
+| Peak flood (DEL_PRODUCT) | 0.061 | 0.087 | 0.165 | 0.114 | 16,590 ha | 8,798 ha |
+| **Recession (DEL_MONIT01)** | **0.123** | **0.184** | **0.272** | **0.220** | 16,590 ha | 11,212 ha |
 
 ---
 
@@ -92,11 +92,11 @@ False positives (red) spread across agricultural fields are wet soil misclassifi
 <img src="outputs/figures/fig04_validation_metrics.png" width="800">
 </p>
 
-*Figure 4: IoU, precision, and recall vs threshold (left); final metrics at 9.348 dB (right).*
+*Figure 4: IoU, precision, and recall vs threshold (left); final metrics at 7.807 dB (right).*
 
-IoU peaks at 0.054 and the curve is broad and low across the full sweep — no threshold achieves clean separation. With only 0.68 dB signal separation, precision and recall cannot both be high simultaneously. The flat, low curve is diagnostic of overlapping pixel distributions rather than a tuning problem.
+IoU peaks at 0.061 and the curve is broad and low across the full sweep — no threshold achieves clean separation. With only 0.68 dB signal separation, precision and recall cannot both be high simultaneously. The flat, low curve is diagnostic of overlapping pixel distributions rather than a tuning problem.
 
-The higher recession IoU (0.128) confirms the hypothesis: persistent standing water after rainfall drains is more specularly distinct from background, making it easier to detect than the immediate flood peak.
+The higher recession IoU (0.123) confirms the hypothesis: persistent standing water after rainfall drains is more specularly distinct from background, making it easier to detect than the immediate flood peak.
 
 ---
 

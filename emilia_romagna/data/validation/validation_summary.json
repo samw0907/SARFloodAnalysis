@@ -1,5 +1,5 @@
 {
-  "calibrated_threshold_db": 9.348,
+  "calibrated_threshold_db": 7.807,
   "calibration_reference": "peak",
   "detection_mode": "combined_magnitude",
   "reference_areas_ha": {
@@ -8,247 +8,247 @@
   },
   "metrics": {
     "peak": {
-      "iou": 0.054,
-      "precision": 0.089,
-      "recall": 0.119,
-      "f1": 0.102,
-      "tp": 26074,
-      "fp": 266155,
-      "fn": 193786,
-      "tn": 21297695,
-      "detected_area_ha": 11689.2,
+      "iou": 0.061,
+      "precision": 0.087,
+      "recall": 0.165,
+      "f1": 0.114,
+      "tp": 36271,
+      "fp": 378484,
+      "fn": 183589,
+      "tn": 10800640,
+      "detected_area_ha": 16590.2,
       "reference_area_ha": 8797.6,
       "reference_name": "peak",
-      "threshold_db": 9.348
+      "threshold_db": 7.807
     },
     "recession": {
-      "iou": 0.128,
-      "precision": 0.222,
-      "recall": 0.231,
-      "f1": 0.226,
-      "tp": 64806,
-      "fp": 227423,
-      "fn": 215635,
-      "tn": 21275846,
-      "detected_area_ha": 11689.2,
+      "iou": 0.123,
+      "precision": 0.184,
+      "recall": 0.272,
+      "f1": 0.22,
+      "tp": 76414,
+      "fp": 338341,
+      "fn": 204027,
+      "tn": 10780202,
+      "detected_area_ha": 16590.2,
       "reference_area_ha": 11212.4,
       "reference_name": "recession",
-      "threshold_db": 9.348
+      "threshold_db": 7.807
     }
   },
   "threshold_sweep": [
     {
       "threshold": 0.1,
-      "iou": 0.024,
-      "precision": 0.024,
+      "iou": 0.031,
+      "precision": 0.031,
       "recall": 0.892,
-      "detected_area_ha": 331765.4
+      "detected_area_ha": 253925.6
     },
     {
       "threshold": 0.614,
-      "iou": 0.024,
-      "precision": 0.024,
+      "iou": 0.031,
+      "precision": 0.031,
       "recall": 0.892,
-      "detected_area_ha": 331113.2
+      "detected_area_ha": 253471.8
     },
     {
       "threshold": 1.128,
-      "iou": 0.024,
-      "precision": 0.024,
+      "iou": 0.031,
+      "precision": 0.031,
       "recall": 0.89,
-      "detected_area_ha": 329275.3
+      "detected_area_ha": 252157.8
     },
     {
       "threshold": 1.641,
-      "iou": 0.024,
-      "precision": 0.024,
+      "iou": 0.031,
+      "precision": 0.031,
       "recall": 0.881,
-      "detected_area_ha": 321707.0
+      "detected_area_ha": 246459.6
     },
     {
       "threshold": 2.155,
-      "iou": 0.025,
-      "precision": 0.025,
+      "iou": 0.033,
+      "precision": 0.033,
       "recall": 0.839,
-      "detected_area_ha": 291775.9
+      "detected_area_ha": 223292.4
     },
     {
       "threshold": 2.669,
-      "iou": 0.027,
-      "precision": 0.027,
+      "iou": 0.035,
+      "precision": 0.036,
       "recall": 0.754,
-      "detected_area_ha": 241613.9
+      "detected_area_ha": 184797.4
     },
     {
       "threshold": 3.183,
-      "iou": 0.03,
-      "precision": 0.03,
+      "iou": 0.039,
+      "precision": 0.039,
       "recall": 0.651,
-      "detected_area_ha": 189907.1
+      "detected_area_ha": 145244.5
     },
     {
       "threshold": 3.697,
-      "iou": 0.032,
-      "precision": 0.033,
+      "iou": 0.042,
+      "precision": 0.043,
       "recall": 0.553,
-      "detected_area_ha": 146346.9
+      "detected_area_ha": 112072.3
     },
     {
       "threshold": 4.21,
-      "iou": 0.035,
-      "precision": 0.037,
+      "iou": 0.045,
+      "precision": 0.048,
       "recall": 0.469,
-      "detected_area_ha": 112517.6
+      "detected_area_ha": 86317.0
     },
     {
       "threshold": 4.724,
-      "iou": 0.038,
-      "precision": 0.04,
+      "iou": 0.048,
+      "precision": 0.052,
       "recall": 0.396,
-      "detected_area_ha": 86663.3
+      "detected_area_ha": 66692.6
     },
     {
       "threshold": 5.238,
-      "iou": 0.04,
-      "precision": 0.044,
+      "iou": 0.051,
+      "precision": 0.057,
       "recall": 0.334,
-      "detected_area_ha": 66910.1
+      "detected_area_ha": 51700.4
     },
     {
       "threshold": 5.752,
-      "iou": 0.043,
-      "precision": 0.048,
+      "iou": 0.054,
+      "precision": 0.062,
       "recall": 0.286,
-      "detected_area_ha": 51928.1
+      "detected_area_ha": 40336.3
     },
     {
       "threshold": 6.266,
-      "iou": 0.046,
-      "precision": 0.053,
+      "iou": 0.056,
+      "precision": 0.068,
       "recall": 0.246,
-      "detected_area_ha": 40578.3
+      "detected_area_ha": 31720.6
     },
     {
       "threshold": 6.779,
-      "iou": 0.048,
-      "precision": 0.058,
+      "iou": 0.058,
+      "precision": 0.074,
       "recall": 0.213,
-      "detected_area_ha": 32074.8
+      "detected_area_ha": 25260.6
     },
     {
       "threshold": 7.293,
-      "iou": 0.05,
-      "precision": 0.064,
+      "iou": 0.06,
+      "precision": 0.081,
       "recall": 0.187,
-      "detected_area_ha": 25566.7
+      "detected_area_ha": 20325.6
     },
     {
       "threshold": 7.807,
-      "iou": 0.052,
-      "precision": 0.07,
+      "iou": 0.061,
+      "precision": 0.087,
       "recall": 0.165,
-      "detected_area_ha": 20621.2
+      "detected_area_ha": 16591.0
     },
     {
       "threshold": 8.321,
-      "iou": 0.052,
-      "precision": 0.076,
+      "iou": 0.06,
+      "precision": 0.093,
       "recall": 0.145,
-      "detected_area_ha": 16795.7
+      "detected_area_ha": 13682.4
     },
     {
       "threshold": 8.834,
-      "iou": 0.053,
-      "precision": 0.082,
+      "iou": 0.06,
+      "precision": 0.1,
       "recall": 0.131,
-      "detected_area_ha": 13930.4
+      "detected_area_ha": 11503.6
     },
     {
       "threshold": 9.348,
-      "iou": 0.054,
-      "precision": 0.089,
+      "iou": 0.059,
+      "precision": 0.106,
       "recall": 0.119,
-      "detected_area_ha": 11687.8
+      "detected_area_ha": 9797.7
     },
     {
       "threshold": 9.862,
-      "iou": 0.053,
-      "precision": 0.096,
+      "iou": 0.058,
+      "precision": 0.112,
       "recall": 0.108,
-      "detected_area_ha": 9922.8
+      "detected_area_ha": 8462.0
     },
     {
       "threshold": 10.376,
-      "iou": 0.053,
-      "precision": 0.103,
+      "iou": 0.057,
+      "precision": 0.119,
       "recall": 0.1,
-      "detected_area_ha": 8559.5
+      "detected_area_ha": 7415.8
     },
     {
       "threshold": 10.89,
-      "iou": 0.052,
-      "precision": 0.108,
+      "iou": 0.056,
+      "precision": 0.124,
       "recall": 0.092,
-      "detected_area_ha": 7440.2
+      "detected_area_ha": 6521.0
     },
     {
       "threshold": 11.403,
-      "iou": 0.051,
-      "precision": 0.113,
+      "iou": 0.053,
+      "precision": 0.127,
       "recall": 0.084,
-      "detected_area_ha": 6547.2
+      "detected_area_ha": 5810.0
     },
     {
       "threshold": 11.917,
-      "iou": 0.049,
-      "precision": 0.118,
+      "iou": 0.051,
+      "precision": 0.131,
       "recall": 0.077,
-      "detected_area_ha": 5764.7
+      "detected_area_ha": 5175.9
     },
     {
       "threshold": 12.431,
-      "iou": 0.046,
-      "precision": 0.121,
+      "iou": 0.048,
+      "precision": 0.133,
       "recall": 0.07,
-      "detected_area_ha": 5124.0
+      "detected_area_ha": 4648.3
     },
     {
       "threshold": 12.945,
-      "iou": 0.044,
-      "precision": 0.122,
+      "iou": 0.045,
+      "precision": 0.134,
       "recall": 0.063,
-      "detected_area_ha": 4562.7
+      "detected_area_ha": 4167.3
     },
     {
       "threshold": 13.459,
-      "iou": 0.041,
-      "precision": 0.124,
+      "iou": 0.042,
+      "precision": 0.135,
       "recall": 0.057,
-      "detected_area_ha": 4042.3
+      "detected_area_ha": 3713.9
     },
     {
       "threshold": 13.972,
-      "iou": 0.037,
-      "precision": 0.125,
+      "iou": 0.038,
+      "precision": 0.135,
       "recall": 0.051,
-      "detected_area_ha": 3584.2
+      "detected_area_ha": 3300.5
     },
     {
       "threshold": 14.486,
-      "iou": 0.034,
-      "precision": 0.124,
+      "iou": 0.035,
+      "precision": 0.134,
       "recall": 0.045,
-      "detected_area_ha": 3177.4
+      "detected_area_ha": 2937.2
     },
     {
       "threshold": 15.0,
-      "iou": 0.03,
-      "precision": 0.122,
+      "iou": 0.031,
+      "precision": 0.132,
       "recall": 0.039,
-      "detected_area_ha": 2805.3
+      "detected_area_ha": 2604.3
     }
   ],
-  "permanent_water_pixels": 7498514,
-  "permanent_water_ha": 299940.6,
-  "terrain_excluded_ha": 191996.7
+  "permanent_water_pixels": 1610875,
+  "permanent_water_ha": 64435.0,
+  "terrain_excluded_ha": 99302.8
 }
