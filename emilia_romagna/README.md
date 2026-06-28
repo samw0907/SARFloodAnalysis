@@ -81,8 +81,8 @@ False positives (red) spread across agricultural fields are wet soil misclassifi
 
 | Reference | IoU | Precision | Recall | F1 | Detected | Reference area |
 |---|---|---|---|---|---|---|
-| Peak flood (DEL_PRODUCT) | 0.061 | 0.087 | 0.165 | 0.114 | 16,590 ha | 8,798 ha |
-| **Recession (DEL_MONIT01)** | **0.123** | **0.184** | **0.272** | **0.220** | 16,590 ha | 11,212 ha |
+| Peak flood (DEL_PRODUCT) | 0.057 | 0.080 | 0.166 | 0.108 | 18,058 ha | 8,798 ha |
+| **Recession (DEL_MONIT01)** | **0.117** | **0.169** | **0.273** | **0.209** | 18,058 ha | 11,212 ha |
 
 ---
 
@@ -94,9 +94,9 @@ False positives (red) spread across agricultural fields are wet soil misclassifi
 
 *Figure 4: IoU, precision, and recall vs threshold (left); final metrics at 7.807 dB (right).*
 
-IoU peaks at 0.061 and the curve is broad and low across the full sweep — no threshold achieves clean separation. With only 0.68 dB signal separation, precision and recall cannot both be high simultaneously. The flat, low curve is diagnostic of overlapping pixel distributions rather than a tuning problem.
+IoU peaks at 0.057 and the curve is broad and low across the full sweep — no threshold achieves clean separation. With only 0.68 dB signal separation, precision and recall cannot both be high simultaneously. The flat, low curve is diagnostic of overlapping pixel distributions rather than a tuning problem.
 
-The higher recession IoU (0.123) confirms the hypothesis: persistent standing water after rainfall drains is more specularly distinct from background, making it easier to detect than the immediate flood peak.
+The higher recession IoU (0.117) confirms the hypothesis: persistent standing water after rainfall drains is more specularly distinct from background, making it easier to detect than the immediate flood peak.
 
 ---
 
