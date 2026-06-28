@@ -1,0 +1,27 @@
+services:
+  emilia-romagna:
+    build:
+      context: .
+      args:
+        CASE_STUDY: emilia_romagna
+    volumes:
+      - ./emilia_romagna/data:/app/data
+      - ./emilia_romagna/outputs:/app/outputs
+
+  wroclaw:
+    build:
+      context: .
+      args:
+        CASE_STUDY: wroclaw
+    volumes:
+      - ./wroclaw/data:/app/data
+      - ./wroclaw/outputs:/app/outputs
+
+  jacobabad:
+    build:
+      context: .
+      args:
+        CASE_STUDY: jacobabad
+    volumes:
+      - ./jacobabad/data:/app/data
+      - ./jacobabad/outputs:/app/outputs

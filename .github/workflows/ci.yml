@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - service: emilia-romagna
+            case_study: emilia_romagna
+          - service: wroclaw
+            case_study: wroclaw
+          - service: jacobabad
+            case_study: jacobabad
+
+    name: ${{ matrix.service }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        run: docker compose build ${{ matrix.service }}
+
+      - name: Smoke test — imports and config
+        run: |
+          docker compose run --rm --no-deps ${{ matrix.service }} python -c "
+          from src.utils.config import load_config
+          from src.pipeline.composite import build_composite, run_composites
+          from src.pipeline.change import run_change_detection
+          from src.pipeline.validate import run_validation
+          cfg = load_config('config/pipeline_config.yaml')
+          bbox = cfg['study_area']['processing_bbox']
+          assert len(bbox) == 4, 'bbox must have 4 coordinates'
+          print('case_study: ${{ matrix.case_study }}')
+          print('bbox:', bbox)
+          print('all imports and config OK')
+          "

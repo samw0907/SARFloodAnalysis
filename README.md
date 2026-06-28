@@ -119,6 +119,20 @@ python scripts/make_figures.py
 
 CDSE credentials (`CDSE_USER` / `CDSE_PASSWORD`) required for scene download via `scripts/run_processing.py`.
 
+### Docker
+
+The analysis pipeline (change detection, validation, figures) is containerised. SNAP RTC processing is intentionally excluded — it requires a 2 GB Java installation and runs for hours; the pre-computed RTC scenes in `data/rtc/` are the starting point for the containers.
+
+```bash
+docker compose build                    # build all three images
+docker compose run --rm emilia-romagna  # run analysis + figures
+docker compose run --rm wroclaw
+docker compose run --rm jacobabad
+docker compose up                       # run all three in parallel
+```
+
+Each container mounts its own `data/` and `outputs/` as volumes, so figures and analysis outputs are written directly to disk. This split (offline heavy processing → containerised analysis) mirrors standard ELT practice in geospatial data pipelines.
+
 ---
 
 ## Data Sources
