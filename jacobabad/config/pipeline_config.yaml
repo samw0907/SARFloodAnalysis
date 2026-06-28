@@ -1,44 +1,47 @@
 study_area:
-  name: "Jacobabad District Floods — Pakistan 2022"
-  combined_bbox: [67.5, 27.0, 69.0, 28.2]
-  processing_bbox: [67.8, 27.2, 68.7, 28.0]
-
+  name: "Jacobabad District Floods \xE2\u20AC\u201D Pakistan 2022"
+  combined_bbox:
+  - 67.5
+  - 27.0
+  - 69.0
+  - 28.2
+  processing_bbox:
+  # Tightened to EMSR629 AOI01 extent + ~5 km buffer (was 800,000 ha; now ~190,000 ha)
+  # EMSR629 bounds: 68.073-68.440 E, 27.456-27.699 N
+  - 68.02
+  - 27.40
+  - 68.50
+  - 27.75
 scenes:
   pre:
-    - "2022-07-25"
+  - '2022-07-25'
   post:
-    - "2022-08-30"
-  collection: "SENTINEL-1"
-  product_type: "IW_GRDH_1S"
-  orbit_direction: "DESCENDING"
-
+  - '2022-08-30'
+  collection: SENTINEL-1
+  product_type: IW_GRDH_1S
+  orbit_direction: DESCENDING
 processing:
   crs: 32642
   spacing: 20
   polarizations:
-    - "VV"
-    - "VH"
-  dem: "SRTM 1Sec HGT"
+  - VV
+  - VH
+  dem: SRTM 1Sec HGT
   speckle_filter_size: 7
-
 change_detection:
-  threshold_db: -2.0
+  threshold_db: 1.0
   mode: directional_decrease
-
 permanent_water:
   jrc_occurrence_threshold: 75
-
 validation:
-  emsr_peak: "data/external/EMSR629_AOI01_DEL_PRODUCT_observedEventA_r1_v2.shp"
-
+  emsr_peak: data/external/EMSR629_AOI01_DEL_PRODUCT_observedEventA_r1_v2.shp
 aws:
-  bucket: "sam-sar-flooding"
-  prefix: "jacobabad-flood-2022"
-  region: "eu-north-1"
-
+  bucket: sam-sar-flooding
+  prefix: jacobabad-flood-2022
+  region: eu-north-1
 paths:
-  raw_scenes: "data/raw"
-  rtc_output: "data/rtc"
-  external: "data/external"
-  jrc_water: "data/external/jrc_water_pakistan.tif"
-  snap_aux: "C:/Users/swill/.snap/auxdata"
+  raw_scenes: data/raw
+  rtc_output: data/rtc
+  external: data/external
+  jrc_water: data/external/jrc_water_pakistan.tif
+  snap_aux: C:/Users/swill/.snap/auxdata
