@@ -1,11 +1,15 @@
-﻿# Large binary data — too big to commit, re-generate or copy from original project dirs
-data/raw/
-data/rtc/
-data/analysis/
+﻿# Large binary data — not committed, re-generate or download manually
+*/data/raw/
+*/data/rtc/
+*/data/analysis/
+*/data/vectors/
+*/data/validation/
+*/data/external/
 
 # Secrets
 config/.env
 .env
+*/config/.env
 
 # Python
 __pycache__/
