@@ -12,9 +12,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from matplotlib.colors import LinearSegmentedColormap, BoundaryNorm
+from matplotlib.colors import LinearSegmentedColormap
 import rasterio
-from rasterio.plot import reshape_as_image
 from rasterio.windows import from_bounds
 from rasterio.warp import transform_bounds
 from rasterio.crs import CRS
@@ -259,7 +258,7 @@ def main():
     composite_r[(flood_mask == 1) & (rec_r == 1)] = 1
 
     ax = axes[1]
-    im2 = ax.imshow(composite_r, cmap=cmap_det, vmin=0, vmax=3,
+    ax.imshow(composite_r, cmap=cmap_det, vmin=0, vmax=3,
                     extent=flood_ext, origin="upper")
     ax.set_title("vs Recession Flood\n(EMSR664 DEL_MONIT01)", fontsize=10)
     ax.set_xlabel("Easting (m)")
@@ -359,10 +358,10 @@ def main():
     save_fig(fig, "fig04_validation_metrics.png", OUT)
 
     print(f"\nAll figures saved to: {os.path.abspath(OUT)}")
-    print(f"  fig01_backscatter_comparison.png")
-    print(f"  fig02_change_map.png")
-    print(f"  fig03_flood_detection.png")
-    print(f"  fig04_validation_metrics.png")
+    print("  fig01_backscatter_comparison.png")
+    print("  fig02_change_map.png")
+    print("  fig03_flood_detection.png")
+    print("  fig04_validation_metrics.png")
 
 
 if __name__ == "__main__":

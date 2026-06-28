@@ -2,10 +2,7 @@
 import os
 import json
 import numpy as np
-import rasterio
 from rasterio.features import rasterize
-from rasterio.warp import transform_bounds
-from rasterio.crs import CRS
 import geopandas as gpd
 import yaml
 from src.utils.config import load_config
@@ -254,7 +251,7 @@ def run_validation(config=None):
             next(iter(ref_rasters))
         )
     print(f"\nCalibrating threshold against '{calib_target}' reference...")
-    print(f"Sweeping thresholds from 0.1 dB to 15.0 dB (30 steps)...")
+    print("Sweeping thresholds from 0.1 dB to 15.0 dB (30 steps)...")
 
     optimal_threshold, best_metrics, sweep_results, best_mask = calibrate_threshold(
         change_vv_clipped, change_vh_clipped,

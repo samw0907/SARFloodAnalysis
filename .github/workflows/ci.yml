@@ -7,30 +7,57 @@ on:
     branches: [master]
 
 jobs:
-  build-and-test:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install flake8
+        run: pip install flake8
+      - name: Lint emilia_romagna
+        run: flake8 emilia_romagna/src/ emilia_romagna/scripts/
+      - name: Lint wroclaw
+        run: flake8 wroclaw/src/ wroclaw/scripts/
+      - name: Lint jacobabad
+        run: flake8 jacobabad/src/ jacobabad/scripts/
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        case_study: [emilia_romagna, wroclaw, jacobabad]
+    name: unit-tests / ${{ matrix.case_study }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      - name: Install case-study package
+        working-directory: ${{ matrix.case_study }}
+        run: pip install -e . --no-deps
+      - name: Run unit tests
+        working-directory: ${{ matrix.case_study }}
+        run: pytest tests/unit/ -v
+
+  docker-smoke:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
           - service: emilia-romagna
-            case_study: emilia_romagna
           - service: wroclaw
-            case_study: wroclaw
           - service: jacobabad
-            case_study: jacobabad
-
-    name: ${{ matrix.service }}
-
+    name: docker / ${{ matrix.service }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
+      - uses: docker/setup-buildx-action@v3
       - name: Build image
         run: docker compose build ${{ matrix.service }}
-
-      - name: Smoke test — imports and config
+      - name: Smoke test
         run: |
           docker compose run --rm --no-deps ${{ matrix.service }} python -c "
           from src.utils.config import load_config
@@ -39,8 +66,7 @@ jobs:
           from src.pipeline.validate import run_validation
           cfg = load_config('config/pipeline_config.yaml')
           bbox = cfg['study_area']['processing_bbox']
-          assert len(bbox) == 4, 'bbox must have 4 coordinates'
-          print('case_study: ${{ matrix.case_study }}')
+          assert len(bbox) == 4
           print('bbox:', bbox)
           print('all imports and config OK')
           "

@@ -6,7 +6,6 @@ from rasterio.crs import CRS
 from rasterio.warp import transform_bounds, reproject, Resampling
 from rasterio.windows import from_bounds
 from rasterio.features import shapes
-from scipy import ndimage
 import geopandas as gpd
 from shapely.geometry import shape
 from src.utils.config import load_config

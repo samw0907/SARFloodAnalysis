@@ -20,8 +20,6 @@ def read_srtm_tile(zip_path):
     lat = int(tile_name[1:3]) * (1 if tile_name[0] == "N" else -1)
     lon = int(tile_name[4:7]) * (1 if tile_name[3] == "E" else -1)
 
-    hgt_name = f"{tile_name}.hgt"
-
     with zipfile.ZipFile(zip_path) as zf:
         names = zf.namelist()
         match = next((n for n in names if n.endswith(".hgt")), None)

@@ -150,8 +150,6 @@ def main():
                             post_vv[np.isfinite(post_vv)].ravel()])
     vmin, vmax = np.percentile(all_v, 2), np.percentile(all_v, 98)
 
-    ref_for_overlay = refs.get("peak", refs.get("maximum", next(iter(refs.values()))))
-
     for ax, data, t, title, date in [
         (axes[0], pre_vv,  pre_t,  "Pre-event",  "3 Sep 2024"),
         (axes[1], post_vv, post_t, "Post-event", "15 Sep 2024"),

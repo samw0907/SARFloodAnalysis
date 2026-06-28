@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 120
+extend-ignore = W292, E402, E221, E127, E302
+exclude =
+    */venv/,
+    */__pycache__/,
+    */*.egg-info/

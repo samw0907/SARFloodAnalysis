@@ -220,7 +220,7 @@ def main():
         ax1.axhline(opt_iou, color="purple", ls=":", lw=1)
     ax1.set_xlabel("Threshold (dB)", fontsize=10)
     ax1.set_ylabel("Score", fontsize=10)
-    ax1.set_title(f"Threshold Calibration (directional decrease mode)", fontsize=10)
+    ax1.set_title("Threshold Calibration (directional decrease mode)", fontsize=10)
     ax1.legend(fontsize=8)
     ax1.set_ylim(0, None)
     ax1.grid(True, alpha=0.3)

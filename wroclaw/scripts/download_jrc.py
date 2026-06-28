@@ -24,7 +24,7 @@ def download_jrc():
         print(f"Already exists: {OUTPUT_PATH}")
         return
 
-    print(f"Downloading JRC Global Surface Water occurrence tile...")
+    print("Downloading JRC Global Surface Water occurrence tile...")
     print(f"Source: {JRC_URL}")
 
     response = requests.get(JRC_URL, stream=True)

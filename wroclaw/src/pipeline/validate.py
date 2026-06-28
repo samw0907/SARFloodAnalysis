@@ -2,10 +2,7 @@
 import os
 import json
 import numpy as np
-import rasterio
 from rasterio.features import rasterize
-from rasterio.warp import transform_bounds
-from rasterio.crs import CRS
 import geopandas as gpd
 import yaml
 from src.utils.config import load_config
@@ -233,8 +230,8 @@ def run_validation(config=None):
     # Use wider sweep range — combined magnitude in this vegetated floodplain
     # event is high across the scene due to seasonal agricultural change.
     # Sweep up to 15 dB to find the IoU peak.
-    print(f"\nCalibrating threshold against maximum flood extent reference...")
-    print(f"Sweeping thresholds from 1.0 dB to 15.0 dB (30 steps)...")
+    print("\nCalibrating threshold against maximum flood extent reference...")
+    print("Sweeping thresholds from 1.0 dB to 15.0 dB (30 steps)...")
 
     optimal_threshold, best_metrics, sweep_results, best_mask = calibrate_threshold(
         change_vv_clipped, change_vh_clipped,
