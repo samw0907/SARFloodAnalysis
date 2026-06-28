@@ -82,10 +82,10 @@ def apply_flood_mask(change_vv, change_vh, threshold_db,
 
       pol_ratio:
         Polarization ratio change (VH_change − VV_change). Open water causes
-        specular reflection that drops VV far more than VH; wet soil changes
-        both equally. This is the most discriminative feature when rainfall
-        causes widespread soil moisture increase (the Emilia-Romagna May 2023
-        confound). Large positive value = VV fell more than VH = likely flood.
+        specular reflection that drops VV far more than VH; soil moisture changes
+        both polarisations proportionally. Best for dry-antecedent open-water floods
+        where the specular geometry is dominant. Large positive value = VV fell more
+        than VH = likely flood.
 
       vv_only:
         VV-only directional decrease: max(−dVV, 0). Simpler than pol_ratio
@@ -232,7 +232,7 @@ def run_change_detection(config=None):
     jrc_threshold = config["permanent_water"]["jrc_occurrence_threshold"]
     jrc_path = config["paths"]["jrc_water"]
 
-    # Minimum patch size: 0.5 ha at 20m = 125 pixels
+    # Minimum patch size: 0.5 ha at 20m = 12 pixels (400m²/pixel → 0.5ha/0.04ha = 12.5)
     pixel_area_ha = (config["processing"]["spacing"] ** 2) / 10000
     min_pixels = int(0.5 / pixel_area_ha)
 

@@ -194,7 +194,7 @@ def run_change_detection(config=None):
     jrc_threshold = config["permanent_water"]["jrc_occurrence_threshold"]
     jrc_path = os.path.join("data", "external", "jrc_water_wroclaw.tif")
 
-    # Minimum patch size: 0.5 ha at 20m = 125 pixels
+    # Minimum patch size: 0.5 ha at 20m = 12 pixels (400m²/pixel → 0.5ha/0.04ha = 12.5)
     pixel_area_ha = (config["processing"]["spacing"] ** 2) / 10000
     min_pixels = int(0.5 / pixel_area_ha)
 

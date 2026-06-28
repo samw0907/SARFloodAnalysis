@@ -6,11 +6,9 @@ study_area:
   - 69.0
   - 28.2
   processing_bbox:
-  # Tightened to EMSR629 AOI01 extent + ~5 km buffer (was 800,000 ha; now ~190,000 ha)
-  # EMSR629 bounds: 68.073-68.440 E, 27.456-27.699 N
   - 68.02
-  - 27.40
-  - 68.50
+  - 27.4
+  - 68.5
   - 27.75
 scenes:
   pre:
@@ -27,10 +25,10 @@ processing:
   - VV
   - VH
   dem: SRTM 1Sec HGT
-  speckle_filter_size: 7
 change_detection:
-  threshold_db: 1.0
+  threshold_db: 0.1
   mode: directional_decrease
+  calibration_reference: peak
 permanent_water:
   jrc_occurrence_threshold: 75
 validation:

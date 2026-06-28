@@ -288,6 +288,8 @@ def run_validation(config=None):
     # Write validation summary JSON
     summary = {
         "calibrated_threshold_db": optimal_threshold,
+        "calibration_reference": "maximum",
+        "detection_mode": "combined_magnitude",
         "reference_areas_ha": ref_areas,
         "metrics": all_metrics,
         "threshold_sweep": sweep_results,

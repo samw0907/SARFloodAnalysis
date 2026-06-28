@@ -25,10 +25,10 @@ processing:
   - VV
   - VH
   dem: SRTM 1Sec HGT
-  speckle_filter_size: 7
 change_detection:
-  threshold_db: 9.69
+  threshold_db: 9.348
   mode: combined_magnitude
+  calibration_reference: peak
 permanent_water:
   jrc_occurrence_threshold: 75
 terrain:

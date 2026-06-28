@@ -244,19 +244,23 @@ def run_validation(config=None):
     if not ref_rasters:
         raise RuntimeError("No EMSR reference products could be loaded — check config validation paths")
 
-    # Calibrate against maximum if available, otherwise peak, otherwise first loaded
-    calib_target = next(
-        (k for k in ("maximum", "peak") if k in ref_rasters),
-        next(iter(ref_rasters))
-    )
+    # Calibration reference: read from config if specified, otherwise prefer maximum > peak
+    cfg_calib = config.get("change_detection", {}).get("calibration_reference")
+    if cfg_calib and cfg_calib in ref_rasters:
+        calib_target = cfg_calib
+    else:
+        calib_target = next(
+            (k for k in ("maximum", "peak") if k in ref_rasters),
+            next(iter(ref_rasters))
+        )
     print(f"\nCalibrating threshold against '{calib_target}' reference...")
-    print(f"Sweeping thresholds from 1.0 dB to 15.0 dB (30 steps)...")
+    print(f"Sweeping thresholds from 0.1 dB to 15.0 dB (30 steps)...")
 
     optimal_threshold, best_metrics, sweep_results, best_mask = calibrate_threshold(
         change_vv_clipped, change_vh_clipped,
         ref_rasters[calib_target], permanent_water,
         min_pixels,
-        threshold_range=(1.0, 15.0),
+        threshold_range=(0.1, 15.0),
         steps=30,
         steep_mask=steep_mask,
         mode=mode,

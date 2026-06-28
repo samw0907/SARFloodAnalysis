@@ -1,8 +1,11 @@
 # scripts/run_analysis.py
 # Full analysis pipeline: composites -> terrain prep -> change detection -> validation.
-# Run from project root: python -m scripts.run_analysis
+# Run from project root: python scripts/run_analysis.py
 
+import sys
 import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from src.pipeline.composite import run_composites
 from src.pipeline.change import run_change_detection
 from src.pipeline.validate import run_validation

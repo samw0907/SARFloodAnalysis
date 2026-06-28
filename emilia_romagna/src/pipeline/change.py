@@ -108,9 +108,9 @@ def apply_flood_mask(change_vv, change_vh, threshold_db,
         metric = np.sqrt(vv_dec ** 2 + vh_dec ** 2)
     elif mode == "pol_ratio":
         # Polarization ratio change: VH_change − VV_change.
-        # Open water (specular): VV drops far more than VH → metric large positive.
-        # Wet soil after rain: both polarisations change equally → metric near zero.
-        # Physically the most discriminative feature for this event type.
+        # Open water (specular): VV drops far more than VH → large positive metric.
+        # Soil moisture / rain: VV and VH change proportionally → metric near zero.
+        # Best for dry-antecedent open-water floods where specular geometry dominates.
         metric = change_vh - change_vv
     elif mode == "vv_only":
         metric = np.maximum(-change_vv, 0.0)
@@ -232,7 +232,7 @@ def run_change_detection(config=None):
     jrc_threshold = config["permanent_water"]["jrc_occurrence_threshold"]
     jrc_path = config["paths"]["jrc_water"]
 
-    # Minimum patch size: 0.5 ha at 20m = 125 pixels
+    # Minimum patch size: 0.5 ha at 20m = 12 pixels (400m²/pixel → 0.5ha/0.04ha = 12.5)
     pixel_area_ha = (config["processing"]["spacing"] ** 2) / 10000
     min_pixels = int(0.5 / pixel_area_ha)
 
