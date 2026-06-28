@@ -125,10 +125,6 @@ def main():
     ]:
         ext = extent_from(t, data.shape)
         im = ax.imshow(data, cmap="gray", vmin=vmin, vmax=vmax, extent=ext, origin="upper")
-        for geom in peak_gdf.geometry:
-            parts = [geom] if geom.geom_type == "Polygon" else list(geom.geoms)
-            for p in parts:
-                ax.plot(*p.exterior.xy, color="#FF4444", lw=0.5, alpha=0.8)
         ax.set_title(f"{title}\n{date}", fontsize=11)
         ax.set_xlabel("Easting (m)")
         ax.tick_params(labelsize=7)
@@ -139,10 +135,6 @@ def main():
     for ax in axes:
         ax.set_xlim(bounds_utm[0], bounds_utm[2])
         ax.set_ylim(bounds_utm[1], bounds_utm[3])
-    patch = mpatches.Patch(edgecolor="#FF4444", facecolor="none",
-                            label="EMSR629 flood reference")
-    axes[1].legend(handles=[patch], loc="upper left", fontsize=7,
-                   framealpha=0.8, edgecolor="gray")
     add_scalebar(axes[1], post_t, length_km=25)
     plt.subplots_adjust(right=0.87, wspace=0.05, top=0.90, bottom=0.10, left=0.06)
     cbar_ax = fig.add_axes([0.89, 0.12, 0.02, 0.73])
@@ -157,10 +149,6 @@ def main():
     # Pakistan flood: strong VV decrease expected — use asymmetric stretch to highlight it
     im = ax.imshow(chg_vv, cmap="RdBu_r", vmin=-20, vmax=5,
                    extent=chg_ext, origin="upper")
-    for geom in peak_gdf.geometry:
-        parts = [geom] if geom.geom_type == "Polygon" else list(geom.geoms)
-        for p in parts:
-            ax.plot(*p.exterior.xy, color="lime", lw=0.8, alpha=0.9)
     ax.set_title("VV Backscatter Change (Post − Pre)\n"
                  "Jacobabad Floods — Pakistan, Jul–Aug 2022",
                  fontsize=12, fontweight="bold")
@@ -170,10 +158,6 @@ def main():
     ax.tick_params(labelsize=8)
     cbar = fig.colorbar(im, ax=ax, shrink=0.85)
     cbar.set_label("ΔVV (dB)  ← strong decrease (flood)  |  increase →", fontsize=9)
-    ref_patch = mpatches.Patch(edgecolor="lime", facecolor="none",
-                                label="EMSR629 flood reference")
-    ax.legend(handles=[ref_patch], loc="upper right", fontsize=8,
-              framealpha=0.8, edgecolor="gray")
     add_scalebar(ax, chg_t, length_km=25)
     plt.tight_layout()
     save_fig(fig, "fig02_change_map.png", OUT)
