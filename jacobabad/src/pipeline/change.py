@@ -240,18 +240,28 @@ def run_change_detection(config=None):
 
     print("Loading composites...")
     pre_vv, profile = load_composite(os.path.join(analysis_dir, "pre_composite_VV.tif"))
-    post_vv, _ = load_composite(os.path.join(analysis_dir, "post_composite_VV.tif"))
     pre_vh, _ = load_composite(os.path.join(analysis_dir, "pre_composite_VH.tif"))
-    post_vh, _ = load_composite(os.path.join(analysis_dir, "post_composite_VH.tif"))
 
-    # Crop to minimum common shape
-    min_rows = min(pre_vv.shape[0], post_vv.shape[0], pre_vh.shape[0], post_vh.shape[0])
-    min_cols = min(pre_vv.shape[1], post_vv.shape[1], pre_vh.shape[1], post_vh.shape[1])
-    pre_vv  = pre_vv[:min_rows, :min_cols]
-    post_vv = post_vv[:min_rows, :min_cols]
-    pre_vh  = pre_vh[:min_rows, :min_cols]
-    post_vh = post_vh[:min_rows, :min_cols]
-    profile.update(width=min_cols, height=min_rows)
+    # Warp post composites onto the pre-event reference grid so that pixel (i,j)
+    # in both arrays refers to the same geographic location.  A simple pixel-index
+    # crop to min_shape is wrong whenever the two scenes have different spatial
+    # extents (e.g. adjacent Sentinel-1 frames along the same orbit track).
+    def _warp_to_ref(src_path):
+        from rasterio.vrt import WarpedVRT
+        with rasterio.open(src_path) as src:
+            with WarpedVRT(
+                src,
+                crs=profile["crs"],
+                transform=profile["transform"],
+                width=profile["width"],
+                height=profile["height"],
+                resampling=Resampling.bilinear,
+            ) as vrt:
+                return vrt.read(1).astype(np.float32)
+
+    print("Aligning post composites to pre reference grid...")
+    post_vv = _warp_to_ref(os.path.join(analysis_dir, "post_composite_VV.tif"))
+    post_vh = _warp_to_ref(os.path.join(analysis_dir, "post_composite_VH.tif"))
 
     print("Computing change detection...")
     change_vv = compute_log_ratio(pre_vv, post_vv)

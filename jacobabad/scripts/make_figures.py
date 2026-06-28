@@ -113,7 +113,7 @@ def main():
     print("Figure 1: Backscatter comparison...")
     fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
     fig.suptitle("Sentinel-1 VV Backscatter: Jacobabad District Floods — Pakistan, Aug 2022",
-                 fontsize=12, fontweight="bold", y=1.01)
+                 fontsize=12, fontweight="bold", y=0.98)
 
     all_v = np.concatenate([pre_vv[np.isfinite(pre_vv)].ravel(),
                             post_vv[np.isfinite(post_vv)].ravel()])
@@ -135,14 +135,19 @@ def main():
         ax.ticklabel_format(style="sci", axis="both", scilimits=(6, 6))
 
     axes[0].set_ylabel("Northing (m)")
-    cbar = fig.colorbar(im, ax=axes, shrink=0.85, pad=0.01)
-    cbar.set_label("VV Backscatter (dB)", fontsize=9)
+    # Force both panels to the same geographic extent (processing bbox)
+    for ax in axes:
+        ax.set_xlim(bounds_utm[0], bounds_utm[2])
+        ax.set_ylim(bounds_utm[1], bounds_utm[3])
     patch = mpatches.Patch(edgecolor="#FF4444", facecolor="none",
                             label="EMSR629 flood reference")
     axes[1].legend(handles=[patch], loc="upper left", fontsize=7,
                    framealpha=0.8, edgecolor="gray")
     add_scalebar(axes[1], post_t, length_km=25)
-    plt.tight_layout()
+    plt.subplots_adjust(right=0.87, wspace=0.05, top=0.90, bottom=0.10, left=0.06)
+    cbar_ax = fig.add_axes([0.89, 0.12, 0.02, 0.73])
+    cbar = fig.colorbar(im, cax=cbar_ax)
+    cbar.set_label("VV Backscatter (dB)", fontsize=9)
     save_fig(fig, "fig01_backscatter_comparison.png", OUT)
 
     # ── Figure 2: VV Change map ───────────────────────────────────────────────

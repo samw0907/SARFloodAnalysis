@@ -9,7 +9,7 @@ Sentinel-1 SAR flood mapping of the 2022 Pakistan monsoon flood, validated again
 | Role | Date | Scene |
 |---|---|---|
 | Pre-event | 25 Jul 2022 | `S1A_IW_GRDH_1SDV_20220725T012549` — Descending |
-| Post-event | 30 Aug 2022 | `S1A_IW_GRDH_1SDV_20220830T012526` — Descending |
+| Post-event | 30 Aug 2022 | `S1A_IW_GRDH_1SDV_20220830T012551` — Descending |
 
 **Reference**: EMSR629 AOI01 — peak flood delineation (DEL_PRODUCT, r1_v2). Processing bbox tightened to the EMSR629 AOI01 extent (68.02–68.50°E, 27.40–27.75°N).
 
@@ -23,7 +23,7 @@ SNAP gamma-naught RTC (SRTM 1-sec DEM, UTM 42N, 20 m). Detection mode: **`direct
 
 **Masking**: JRC Global Surface Water ≥ 75% (235 ha permanent water excluded); SRTM slope > 2°.
 
-**Threshold calibration**: 0.1–15 dB (30 steps), maximising IoU against EMSR629 peak. Optimal: **0.1 dB** — IoU decreases monotonically as the threshold rises, confirming the signal is real throughout but weak.
+**Threshold calibration**: 0.1–15 dB (30 steps), maximising IoU against EMSR629 peak. Optimal: **7.807 dB** — IoU rises steadily from 0.287 at 0.1 dB to a peak of 0.370 at 7.807 dB, then falls as recall drops. The classic precision–recall tradeoff shape confirms a genuine, strong signal.
 
 ---
 
@@ -47,12 +47,12 @@ The pre/post contrast is immediately visible and more dramatic than either Europ
 
 *Figure 2: VV log-ratio (ΔVV, dB). Asymmetric scale (−20 to +5 dB) emphasises the flood decrease signal. EMSR629 reference in green.*
 
-A spatially coherent region of strong backscatter decrease (deep blue) aligns closely with the EMSR629 reference. The arid background shows near-zero change — stable pre-event conditions provide a clean baseline. The urban core of Jacobabad shows weaker or mixed signal: flooded buildings produce double-bounce that partially offsets the expected specular decrease.
+A spatially coherent region of strong backscatter decrease (deep blue) aligns closely with the EMSR629 reference. The arid background shows a moderate but clearly smaller decrease — the pre-monsoon dry baseline provides a sharp contrast. The urban core of Jacobabad shows weaker or mixed signal: flooded buildings produce double-bounce that partially offsets the expected specular decrease.
 
 ```
-Mean ΔVV inside  EMSR629 reference:  −0.68 dB  (flood signal — correct direction)
-Mean ΔVV outside EMSR629 reference:  −0.14 dB  (stable arid background)
-Signal separation:                    −0.54 dB
+Mean dVV inside  EMSR629 reference:  -9.45 dB  (flood signal — strong specular decrease)
+Mean dVV outside EMSR629 reference:  -4.18 dB  (background — some fringe inundation)
+Signal separation:                   -5.27 dB
 ```
 
 ---
@@ -67,7 +67,7 @@ Signal separation:                    −0.54 dB
 
 True positives (blue) are spatially coherent across the rural floodplain. False negatives (orange) concentrate in the Jacobabad urban core where building double-bounce suppresses the specular decrease. False positives (red) are present but far less dominant than in the European cases — the stable arid background provides a clean reference.
 
-The detected area (129,251 ha) is 2.6× the EMSR629 reference (50,185 ha). Much of this excess is likely genuine unlabelled inundation: the 2022 Sindh flood extended well beyond the EMSR629 AOI01 boundary, meaning detections outside the reference boundary are counted as false positives even when they may be correct.
+The detected area (94,350 ha) is 1.9× the EMSR629 reference (50,185 ha). Much of this excess is likely genuine unlabelled inundation: the 2022 Sindh flood extended well beyond the EMSR629 AOI01 boundary, and the background also shows a -4.18 dB mean decrease indicating widespread fringe flooding. Detections outside the reference boundary are penalised as false positives even when they may be correct.
 
 ---
 
@@ -75,14 +75,14 @@ The detected area (129,251 ha) is 2.6× the EMSR629 reference (50,185 ha). Much 
 
 | Metric | Value |
 |---|---|
-| **IoU vs EMSR629 peak** | **0.251** |
-| Precision | 0.278 |
-| Recall | 0.717 |
-| F1 | 0.401 |
-| Detected area | 129,251 ha |
+| **IoU vs EMSR629 peak** | **0.370** |
+| Precision | 0.414 |
+| Recall | 0.777 |
+| F1 | 0.540 |
+| Detected area | 94,350 ha |
 | EMSR629 reference area | 50,185 ha |
 | Detection mode | directional_decrease |
-| Calibrated threshold | 0.1 dB |
+| Calibrated threshold | 7.807 dB |
 | Permanent water masked | 235 ha |
 
 ---
@@ -93,14 +93,14 @@ The detected area (129,251 ha) is 2.6× the EMSR629 reference (50,185 ha). Much 
 <img src="outputs/figures/fig04_validation_metrics.png" width="800">
 </p>
 
-*Figure 4: IoU, precision, and recall vs threshold (left); final metrics at 0.1 dB (right).*
+*Figure 4: IoU, precision, and recall vs threshold (left); final metrics at 7.807 dB (right).*
 
-IoU peaks at the lowest tested threshold (0.1 dB) and decreases monotonically — the opposite shape to the flat Wroclaw curve. Precision stays broadly stable (~28%) as the threshold rises because pixels being removed at higher thresholds are genuine flood pixels on arid terrain, not noise. Recall falls rapidly, driving IoU down.
+IoU rises steadily from 0.287 at 0.1 dB to a peak of 0.370 at 7.807 dB, then decreases as recall falls. Precision climbs monotonically (fewer false positives at higher thresholds) while recall falls (flood pixels missed). The well-defined peak shows the algorithm is resolving a genuine, strong signal — the opposite of the flat, degenerate curve seen in the Wroclaw case.
 
-The monotonically decreasing shape confirms a **real signal**: even very small backscatter decreases on arid terrain are diagnostic of inundation. Pre-analysis expected IoU 0.40–0.70 based on ~15 dB specular contrast. Actual separation is −0.54 dB for two reasons:
+The signal is strong: 78.5% of reference pixels show VV < −5 dB, and 47.5% show VV < −10 dB, confirming widespread specular open-water reflection. Pre-analysis expected IoU 0.40–0.70 based on ~15 dB specular contrast. Achieved IoU of 0.370 falls just below the expected range for two reasons:
 
-1. **Urban flooding**: Jacobabad (population ~200,000) is a dense urban centre. Flooded buildings produce double-bounce that partially cancels the specular decrease — only 15.5% of reference pixels show VV < −5 dB.
-2. **Reference incompleteness**: EMSR629 AOI01 maps ~50k ha of an estimated 200k+ ha inundated in the processing bbox. Detections outside the reference boundary are penalised as false positives, depressing both precision and IoU.
+1. **Urban flooding**: Jacobabad (population ~200,000) is a dense urban centre. Flooded buildings produce double-bounce that partially cancels the specular decrease, creating false negatives in the urban core.
+2. **Reference incompleteness**: EMSR629 AOI01 maps ~50k ha of an estimated 200k+ ha inundated in Sindh during August 2022. The background mean decrease of −4.18 dB confirms widespread flooding outside the reference boundary — these genuine detections are penalised as false positives, depressing both precision and IoU.
 
 ---
 

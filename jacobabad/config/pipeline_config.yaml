@@ -26,7 +26,7 @@ processing:
   - VH
   dem: SRTM 1Sec HGT
 change_detection:
-  threshold_db: 0.1
+  threshold_db: 7.807
   mode: directional_decrease
   calibration_reference: peak
 permanent_water:

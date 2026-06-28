@@ -96,6 +96,25 @@ def main():
         flood_p    = src.profile.copy()
         flood_ext  = (src.bounds.left, src.bounds.right, src.bounds.bottom, src.bounds.top)
 
+    # Compute display extent that crops out the diagonal missing SAR swath corner at
+    # bottom-left (coverage gap from orbit geometry).  For each column require ≥80% of
+    # rows to be valid; for each row require ≥80% of columns to be valid.
+    _valid = np.isfinite(pre_vv) & np.isfinite(post_vv)
+    _col_cover = _valid.mean(axis=0)
+    _row_cover = _valid.mean(axis=1)
+    _vcols = np.where(_col_cover >= 0.80)[0]
+    _vrows = np.where(_row_cover >= 0.80)[0]
+    if len(_vcols) and len(_vrows):
+        _c0     = int(_vcols[0])
+        _r_last = int(_vrows[-1])
+        display_xmin = pre_t.c + _c0 * pre_t.a
+        display_ymin = pre_t.f + (_r_last + 1) * pre_t.e  # pre_t.e is negative
+        display_xmax = pre_t.c + pre_vv.shape[1] * pre_t.a
+        display_ymax = pre_t.f
+    else:
+        display_xmin, display_xmax = bounds_utm[0], bounds_utm[2]
+        display_ymin, display_ymax = bounds_utm[1], bounds_utm[3]
+
     print("Loading EMSR reference shapefiles...")
     refs = {}
     ref_cfg = {
@@ -125,7 +144,7 @@ def main():
     print("Figure 1: Backscatter comparison...")
     fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
     fig.suptitle("Sentinel-1 VV Backscatter: Storm Boris Flood — Wroclaw/Poland, Sep 2024",
-                 fontsize=12, fontweight="bold", y=1.01)
+                 fontsize=12, fontweight="bold", y=0.98)
 
     all_v = np.concatenate([pre_vv[np.isfinite(pre_vv)].ravel(),
                             post_vv[np.isfinite(post_vv)].ravel()])
@@ -150,14 +169,19 @@ def main():
         ax.ticklabel_format(style="sci", axis="both", scilimits=(6, 6))
 
     axes[0].set_ylabel("Northing (m)")
-    cbar = fig.colorbar(im, ax=axes, shrink=0.85, pad=0.01)
-    cbar.set_label("VV Backscatter (dB)", fontsize=9)
+    # Crop display to auto-detected valid data extent (removes missing swath corner)
+    for ax in axes:
+        ax.set_xlim(display_xmin, display_xmax)
+        ax.set_ylim(display_ymin, display_ymax)
     patch = mpatches.Patch(edgecolor="#FF4444", facecolor="none",
                             label="EMSR756 flood reference")
     axes[1].legend(handles=[patch], loc="upper left", fontsize=7,
                    framealpha=0.8, edgecolor="gray")
     add_scalebar(axes[1], post_t, length_km=5)
-    plt.tight_layout()
+    plt.subplots_adjust(right=0.87, wspace=0.05, top=0.90, bottom=0.10, left=0.06)
+    cbar_ax = fig.add_axes([0.89, 0.12, 0.02, 0.73])
+    cbar = fig.colorbar(im, cax=cbar_ax)
+    cbar.set_label("VV Backscatter (dB)", fontsize=9)
     save_fig(fig, "fig01_backscatter_comparison.png", OUT)
 
     # ── Figure 2: VV Change map ───────────────────────────────────────────────
@@ -182,6 +206,8 @@ def main():
                                 label="EMSR756 flood reference")
     ax.legend(handles=[ref_patch], loc="upper left", fontsize=8,
               framealpha=0.8, edgecolor="gray")
+    ax.set_xlim(display_xmin, display_xmax)
+    ax.set_ylim(display_ymin, display_ymax)
     add_scalebar(ax, chg_t, length_km=5)
     plt.tight_layout()
     save_fig(fig, "fig02_change_map.png", OUT)
@@ -228,6 +254,8 @@ def main():
                 f"Reference = {m.get('reference_area_ha', 0):.0f} ha",
                 transform=ax.transAxes, va="top", fontsize=7.5,
                 bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.85))
+        ax.set_xlim(display_xmin, display_xmax)
+        ax.set_ylim(display_ymin, display_ymax)
         add_scalebar(ax, flood_t, length_km=5)
 
     patches = [mpatches.Patch(color=c, label=l)

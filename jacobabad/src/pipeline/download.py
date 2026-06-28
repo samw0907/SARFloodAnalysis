@@ -24,9 +24,17 @@ def search_scene(bbox, date_str, orbit_direction, config):
     """
     Search CDSE for a single Sentinel-1 IW GRD scene for a given date,
     bounding box and orbit direction.
+
+    Uses the bbox CENTROID as the search point rather than the full polygon.
+    Intersects(polygon) can match adjacent scenes that merely graze a corner of
+    the bbox; Intersects(centroid point) requires the scene to actually cover the
+    area of interest.
+
     Returns the first matching product metadata dict, or None if not found.
     """
     lon_min, lat_min, lon_max, lat_max = bbox
+    center_lon = (lon_min + lon_max) / 2
+    center_lat = (lat_min + lat_max) / 2
     date_start = f"{date_str}T00:00:00.000Z"
     date_end = (datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1)).strftime(
         "%Y-%m-%dT00:00:00.000Z"
@@ -42,10 +50,7 @@ def search_scene(bbox, date_str, orbit_direction, config):
         f"and att/OData.CSC.StringAttribute/Value eq '{orbit_direction}') "
         f"and ContentDate/Start gt {date_start} "
         f"and ContentDate/Start lt {date_end} "
-        f"and OData.CSC.Intersects(area=geography'SRID=4326;POLYGON(("
-        f"{lon_min} {lat_min},{lon_max} {lat_min},"
-        f"{lon_max} {lat_max},{lon_min} {lat_max},"
-        f"{lon_min} {lat_min}))')"
+        f"and OData.CSC.Intersects(area=geography'SRID=4326;POINT({center_lon} {center_lat})')"
         f"&$top=5"
     )
 

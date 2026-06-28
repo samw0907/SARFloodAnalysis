@@ -155,7 +155,7 @@ def main():
     print("Figure 1: Backscatter comparison...")
     fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
     fig.suptitle("Sentinel-1 VV Backscatter: Emilia-Romagna May 2023",
-                 fontsize=13, fontweight="bold", y=1.01)
+                 fontsize=13, fontweight="bold", y=0.98)
 
     # Shared stretch limits
     all_vals = np.concatenate([
@@ -184,8 +184,10 @@ def main():
         ax.ticklabel_format(style="sci", axis="both", scilimits=(6, 6))
 
     axes[0].set_ylabel("Northing (m)")
-    cbar = fig.colorbar(im, ax=axes, shrink=0.85, pad=0.01)
-    cbar.set_label("VV Backscatter (dB)", fontsize=9)
+    # Force both panels to the same geographic extent (processing bbox)
+    for ax in axes:
+        ax.set_xlim(bounds_utm[0], bounds_utm[2])
+        ax.set_ylim(bounds_utm[1], bounds_utm[3])
 
     # Legend
     patch = mpatches.Patch(edgecolor="#FF4444", facecolor="none", label="EMSR peak flood")
@@ -193,7 +195,10 @@ def main():
                    framealpha=0.8, edgecolor="gray")
 
     add_scalebar(axes[1], post_t, length_km=10)
-    plt.tight_layout()
+    plt.subplots_adjust(right=0.87, wspace=0.05, top=0.90, bottom=0.10, left=0.06)
+    cbar_ax = fig.add_axes([0.89, 0.12, 0.02, 0.73])
+    cbar = fig.colorbar(im, cax=cbar_ax)
+    cbar.set_label("VV Backscatter (dB)", fontsize=9)
     save_fig(fig, "fig01_backscatter_comparison.png", OUT)
 
     # ─────────────────────────────────────────────────────────────────────
@@ -303,6 +308,14 @@ def main():
                for c, l in zip(colors_det, labels_det)]
     axes[1].legend(handles=patches, loc="lower right", fontsize=7,
                    framealpha=0.85, edgecolor="gray")
+
+    # Zoom into the EMSR reference extent so sparse TP/FP/FN pixels are visible.
+    # The full processing area is much larger than the flood extent.
+    ref_bounds = peak_gdf.total_bounds  # [minx, miny, maxx, maxy]
+    margin_m = 10000  # 10 km margin
+    for ax in axes:
+        ax.set_xlim(ref_bounds[0] - margin_m, ref_bounds[2] + margin_m)
+        ax.set_ylim(ref_bounds[1] - margin_m, ref_bounds[3] + margin_m)
 
     add_scalebar(axes[0], flood_t, length_km=5)
     add_scalebar(axes[1], flood_t, length_km=5)
