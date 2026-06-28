@@ -31,7 +31,7 @@ Combined magnitude = √(ΔVV² + ΔVH²)
 
 **Masking**: JRC Global Surface Water ≥ 75% occurrence (permanent water excluded); SRTM slope > 5° (22% of scene excluded as steep terrain).
 
-**Threshold calibration**: grid search 0.1–15 dB (30 steps), maximising IoU against the EMSR664 peak reference. Optimal: **7.807 dB**.
+**Threshold calibration**: grid search 0.1–15 dB (30 steps), maximising IoU against the EMSR664 peak reference. Optimal: **8.834 dB**.
 
 ---
 
@@ -81,8 +81,8 @@ False positives (red) spread across agricultural fields are wet soil misclassifi
 
 | Reference | IoU | Precision | Recall | F1 | Detected | Reference area |
 |---|---|---|---|---|---|---|
-| Peak flood (DEL_PRODUCT) | 0.057 | 0.080 | 0.166 | 0.108 | 18,058 ha | 8,798 ha |
-| **Recession (DEL_MONIT01)** | **0.117** | **0.169** | **0.273** | **0.209** | 18,058 ha | 11,212 ha |
+| Peak flood (DEL_PRODUCT) | 0.057 | 0.090 | 0.133 | 0.107 | 12,674 ha | 8,798 ha |
+| **Recession (DEL_MONIT01)** | **0.127** | **0.211** | **0.240** | **0.225** | 12,674 ha | 11,212 ha |
 
 ---
 
@@ -92,11 +92,11 @@ False positives (red) spread across agricultural fields are wet soil misclassifi
 <img src="outputs/figures/fig04_validation_metrics.png" width="800">
 </p>
 
-*Figure 4: IoU, precision, and recall vs threshold (left); final metrics at 7.807 dB (right).*
+*Figure 4: IoU, precision, and recall vs threshold (left); final metrics at 8.834 dB (right).*
 
 IoU peaks at 0.057 and the curve is broad and low across the full sweep — no threshold achieves clean separation. With only 0.68 dB signal separation, precision and recall cannot both be high simultaneously. The flat, low curve is diagnostic of overlapping pixel distributions rather than a tuning problem.
 
-The higher recession IoU (0.117) confirms the hypothesis: persistent standing water after rainfall drains is more specularly distinct from background, making it easier to detect than the immediate flood peak.
+The higher recession IoU (0.127) confirms the hypothesis: persistent standing water after rainfall drains is more specularly distinct from background, making it easier to detect than the immediate flood peak.
 
 ---
 
