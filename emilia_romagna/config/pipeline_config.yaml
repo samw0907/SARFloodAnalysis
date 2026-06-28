@@ -1,0 +1,50 @@
+study_area:
+  name: "Emilia-Romagna Floods \xE2\u20AC\u201D May 2023"
+  combined_bbox:
+  - 11.0
+  - 43.8
+  - 13.0
+  - 45.0
+  processing_bbox:
+  - 11.5
+  - 44.0
+  - 12.8
+  - 44.7
+scenes:
+  pre:
+  - '2023-05-10'
+  post:
+  - '2023-05-22'
+  collection: SENTINEL-1
+  product_type: IW_GRDH_1S
+  orbit_direction: DESCENDING
+processing:
+  crs: 32632
+  spacing: 20
+  polarizations:
+  - VV
+  - VH
+  dem: SRTM 1Sec HGT
+  speckle_filter_size: 7
+change_detection:
+  threshold_db: 9.69
+  mode: combined_magnitude
+permanent_water:
+  jrc_occurrence_threshold: 75
+terrain:
+  srtm_dir: C:/Users/swill/.snap/auxdata/dem/SRTM 1Sec HGT
+  slope_threshold_deg: 5.0
+  slope_mask: data/external/slope_mask.tif
+validation:
+  emsr_peak: data/external/EMSR664_AOI01_DEL_PRODUCT_observedEventA_v1.shp
+  emsr_recession: data/external/EMSR664_AOI01_DEL_MONIT01_observedEventA_v1.shp
+aws:
+  bucket: sam-sar-flooding
+  prefix: emilia-romagna-flood-2023
+  region: eu-north-1
+paths:
+  raw_scenes: data/raw
+  rtc_output: data/rtc
+  external: data/external
+  jrc_water: data/external/jrc_water_italy.tif
+  snap_aux: C:/Users/swill/.snap/auxdata

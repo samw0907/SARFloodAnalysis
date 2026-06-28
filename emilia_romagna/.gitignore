@@ -1,0 +1,22 @@
+﻿# Large binary data — too big to commit, re-generate or copy from original project dirs
+data/raw/
+data/rtc/
+data/analysis/
+
+# Secrets
+config/.env
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
