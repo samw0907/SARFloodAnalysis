@@ -158,11 +158,6 @@ def main():
     ]:
         ext = extent_from(t, data.shape)
         im = ax.imshow(data, cmap="gray", vmin=vmin, vmax=vmax, extent=ext, origin="upper")
-        for geom in ref_for_overlay.geometry:
-            coords = ([geom] if geom.geom_type == "Polygon"
-                      else list(geom.geoms))
-            for p in coords:
-                ax.plot(*p.exterior.xy, color="#FF4444", lw=0.5, alpha=0.8)
         ax.set_title(f"{title}\n{date}", fontsize=11)
         ax.set_xlabel("Easting (m)")
         ax.tick_params(labelsize=7)
@@ -173,10 +168,6 @@ def main():
     for ax in axes:
         ax.set_xlim(display_xmin, display_xmax)
         ax.set_ylim(display_ymin, display_ymax)
-    patch = mpatches.Patch(edgecolor="#FF4444", facecolor="none",
-                            label="EMSR756 flood reference")
-    axes[1].legend(handles=[patch], loc="upper left", fontsize=7,
-                   framealpha=0.8, edgecolor="gray")
     add_scalebar(axes[1], post_t, length_km=5)
     plt.subplots_adjust(right=0.87, wspace=0.05, top=0.90, bottom=0.10, left=0.06)
     cbar_ax = fig.add_axes([0.89, 0.12, 0.02, 0.73])
@@ -190,10 +181,6 @@ def main():
     chg_ext = extent_from(chg_t, chg_vv.shape)
     im = ax.imshow(chg_vv, cmap="RdBu_r", vmin=-10, vmax=10,
                    extent=chg_ext, origin="upper")
-    for geom in ref_for_overlay.geometry:
-        coords = ([geom] if geom.geom_type == "Polygon" else list(geom.geoms))
-        for p in coords:
-            ax.plot(*p.exterior.xy, color="lime", lw=0.8, alpha=0.9)
     ax.set_title("VV Backscatter Change (Post − Pre)\nStorm Boris Flood — Wroclaw, Sep 2024",
                  fontsize=12, fontweight="bold")
     ax.set_xlabel("Easting (m)")
@@ -202,10 +189,6 @@ def main():
     ax.tick_params(labelsize=8)
     cbar = fig.colorbar(im, ax=ax, shrink=0.85)
     cbar.set_label("ΔVV (dB)  ← decrease  |  increase →", fontsize=9)
-    ref_patch = mpatches.Patch(edgecolor="lime", facecolor="none",
-                                label="EMSR756 flood reference")
-    ax.legend(handles=[ref_patch], loc="upper left", fontsize=8,
-              framealpha=0.8, edgecolor="gray")
     ax.set_xlim(display_xmin, display_xmax)
     ax.set_ylim(display_ymin, display_ymax)
     add_scalebar(ax, chg_t, length_km=5)
