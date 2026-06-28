@@ -1,53 +1,44 @@
 study_area:
   name: "Jacobabad District Floods — Pakistan 2022"
-  # Slightly expanded from EMSR629 bounds (68.07–68.44°E, 27.46–27.70°N)
-  combined_bbox:
-  - 67.5
-  - 27.0
-  - 69.0
-  - 28.2
-  processing_bbox:
-  - 67.8
-  - 27.2
-  - 68.7
-  - 28.0
+  combined_bbox: [67.5, 27.0, 69.0, 28.2]
+  processing_bbox: [67.8, 27.2, 68.7, 28.0]
+
 scenes:
-  # Dates to verify via Copernicus Browser before running download
-  # Pre-event: dry arid season, before monsoon flooding (late July 2022)
-  # Post-event: peak inundation (late August / early September 2022)
   pre:
-  - '2022-07-26'
+    - "2022-07-25"
   post:
-  - '2022-09-06'
-  collection: SENTINEL-1
-  product_type: IW_GRDH_1S
-  orbit_direction: DESCENDING
+    - "2022-08-30"
+  collection: "SENTINEL-1"
+  product_type: "IW_GRDH_1S"
+  orbit_direction: "DESCENDING"
+
 processing:
   crs: 32642
   spacing: 20
   polarizations:
-  - VV
-  - VH
-  dem: SRTM 1Sec HGT
+    - "VV"
+    - "VH"
+  dem: "SRTM 1Sec HGT"
   speckle_filter_size: 7
+
 change_detection:
-  threshold_db: 3.0
+  threshold_db: -2.0
   mode: directional_decrease
+
 permanent_water:
   jrc_occurrence_threshold: 75
-terrain:
-  srtm_dir: C:/Users/swill/.snap/auxdata/dem/SRTM 1Sec HGT
-  slope_threshold_deg: 2.0
-  slope_mask: data/external/slope_mask.tif
+
 validation:
-  emsr_peak: data/external/EMSR629_AOI01_DEL_PRODUCT_observedEventA_r1_v2.shp
+  emsr_peak: "data/external/EMSR629_AOI01_DEL_PRODUCT_observedEventA_r1_v2.shp"
+
 aws:
-  bucket: sam-sar-flooding
-  prefix: jacobabad-flood-2022
-  region: eu-north-1
+  bucket: "sam-sar-flooding"
+  prefix: "jacobabad-flood-2022"
+  region: "eu-north-1"
+
 paths:
-  raw_scenes: data/raw
-  rtc_output: data/rtc
-  external: data/external
-  jrc_water: data/external/jrc_water_pakistan.tif
-  snap_aux: C:/Users/swill/.snap/auxdata
+  raw_scenes: "data/raw"
+  rtc_output: "data/rtc"
+  external: "data/external"
+  jrc_water: "data/external/jrc_water_pakistan.tif"
+  snap_aux: "C:/Users/swill/.snap/auxdata"
